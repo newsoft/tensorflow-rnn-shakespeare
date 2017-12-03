@@ -17,6 +17,7 @@ import tensorflow as tf
 from tensorflow.contrib import layers
 from tensorflow.contrib import rnn  # rnn stuff temporarily in contrib, moving back to code in TF 1.1
 import os
+import sys
 import time
 import math
 import numpy as np
@@ -45,9 +46,15 @@ NLAYERS = 3
 learning_rate = 0.001  # fixed learning rate
 dropout_pkeep = 0.8    # some dropout
 
-# load data, either shakespeare, or the Python source of Tensorflow itself
-shakedir = "shakespeare/*.txt"
-#shakedir = "../tensorflow/**/*.py"
+# load data
+if len(sys.argv) == 1:
+    # use default directory
+    shakedir = "input/*.txt"
+else:
+    # use provided directory
+    shakedir = sys.argv[1] + '/*.txt'
+print('Loading data from %s ..\n', shakedir)
+
 codetext, valitext, bookranges = txt.read_data_files(shakedir, validation=True)
 
 # display some stats on the data
